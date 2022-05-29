@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <canvas id="gameCanvas" width="800" height="500" style="border:1px solid" />
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.font = "30px Arial";
+
+        // funkcje do rysowania
+        function drawPadlle(x, y) {
+            ctx.fillRect(x, y, 20, 100)
+        }
+
+        function drawText(text, x, y) {
+            ctx.fillText(text, x, y)
+        }
+
+        function drawCircle(x, y, r) {
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill()
+        }
+
+        drawPadlle(770, 100)
+        drawPadlle(10, 300)
+
+        drawText("3", 300, 50)
+        drawText("6", 500, 50)
+
+        drawCircle(600, 200, 10)
+
+        //  STAŁe
+        const CANVAS_HEIGHT = canvas.height; // wysokość planszy
+        const CANVAS_WIDTH = canvas.widht; // szerokość planszy
+
+        const BOARD_Y = 50; //  y obwodu punktacji
+        const BOARD_P1_X = 300; // x punktacja gracza 1
+        const BOARD_P2_X = 500; // x punktacja gracza 1
+
+        const PADLLE_WIDTH = 20; // szerokość paletki
+        const PADLLE_HEIGHT = 100; // wysokość paletki
+        const PADLLE_P1_X = 10; // pozycja  paletki gracza nr 1 
+        const PADLLE_P2_X = 770; // pozycja  paletki gracza nr 2
+        const PADLLE_START_Y = (CANVAS_HEIGHT - PADLLE_HEIGHT) / 2; // początkowa pozycja y paletek
+
+        const BALL_R = 15; // PROMIEŃ PIŁECZKI
+        const BALL_START_X = CANVAS_WIDTH / 2; // pozycja początkowa x środka piłeczki
+        const BALL_START_Y = CANVAS_HEIGHT / 2; // pozycja początkowa y środka piłeczki
+        const BALL_START_DX = 4.5; // początkowe zapierdzielanie piłeczki na współrzędnej x
+        const BALL_START_DY = 1.5 // początkowe zapierdzielanie piłeczki na współrzędnej y
+
+        const STATE_CHANGE_INTERVAL = 20;
+
+        // STAN
+        let ballX = BALL_START_X;
+        let ballY = BALL_START_Y;
+        let ballDX = BALL_START_DX;
+        let ballDY = BALL_START_DY;
+        let p1PadlleY = PADLLE_START_Y;
+        let p2PadlleY = PADLLE_START_Y;
+        let p1Points = 0;
+        let p2Points = 0;
+
+        function drawState() {
+            clearCanvas();
+            drawPoint(p1Points.toString(), BOARD_P1_X);
+            drawPoint(p2Points.toString(), BOARD_P2_X);
+            drawBall(ballX, ballY);
+            drawPadlle(PADLLE_P1_X, p1PadlleY);
+            drawPadlle(PADLLE_P2_X, p2PadlleY);
+        }
+
+        function updateStane() {
+            // tutaj będziemy zmieniali stan
+        }
+        ballX = ballX + ballDX;
+        ballY = ballY + ballDY;
+
+        p1PaddleY++;
+        p2PaddleY--;
+        p1Points++;
+        p2Points += 3;
+
+        function updateAndDrawState() {
+            updateState();
+            drawState();
+        }
+
+        setInterval(updateAndDrawState, STATE_CHANGE_INTERVAL);
+    </script>
+</body>
+
+</html>
